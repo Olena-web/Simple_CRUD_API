@@ -1,0 +1,46 @@
+{
+  "name": "simple_crud_api",
+  "version": "1.0.0",
+  "description": "This is a simple CRUD API using in-memory database underneath",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "ts-node src/index.js",
+    "dev": "nodemon --delay 500ms",
+    "lint": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olena-web/Simple_CRUD_API.git"
+  },
+  "keywords": [
+    "CRUD",
+    "API"
+  ],
+  "author": "Olena  Honcharuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Olena-web/Simple_CRUD_API/issues"
+  },
+  "homepage": "https://github.com/Olena-web/Simple_CRUD_API#readme",
+  "devDependencies": {
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "@tsconfig/node16": "^1.0.3",
+    "@types/node": "^17.0.42",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "2.2.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2",
+    "uuid": "^8.3.2",
+    "nodemon": "^2.0.16"
+   
+  }
+  
+}

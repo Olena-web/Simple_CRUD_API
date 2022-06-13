@@ -1,0 +1,10 @@
+{
+    "watch": ["src"],
+    "ext": "ts,json",
+    "ignore": ["src/**/*.spec.ts"],
+    "exec": "ts-node --esm ./src/server.ts",
+    "watchOptions": {
+        "ignore": "node_modules"
+    },
+    "delay": 2500
+  }
