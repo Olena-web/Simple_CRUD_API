@@ -7,9 +7,7 @@ import { fileURLToPath } from 'url';
 import { release, version } from 'os';
 import http from 'http';
 import module from 'module';
-//import { userId } from 'userId.ts';
-
-
+import { user } from './user.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,9 +20,9 @@ const __dirname = dirname(__filename);
 // const aData = JSON.parse(a);
 // const bData = JSON.parse(b);
 
-// const random = Math.random();
+// const random = Math.random();-
 
-let unknownObject = 'userId';
+const unknownObject = user;
 console.log(unknownObject);
 
 // if (random > 0.5) {
@@ -45,8 +43,11 @@ const myServer = http.createServer((_, res) => {
 const PORT = process.env.PORT || 3000;
 
 myServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+myServer.on("error", (error) => {
+  console.log(error);
+});
 
-module.exports = {
-  unknownObject,
-  myServer,
-};
+// module.exports = {
+//   unknownObject,
+//   myServer,
+// };
