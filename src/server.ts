@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import { release, version } from 'os';
 import http from 'http';
 import module from 'module';
-import { userId } from './utils/userId';
+import { userId } from './utils/userId.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -45,7 +45,7 @@ const myServer = http.createServer((_, res) => {
     res.end(JSON.stringify(getUser));
   }
 });
-const PORT = process.env.PROD_PORT || 3000;
+const PORT = process.env.PROD_PORT || 8000;
 console.log(PORT);
 
 myServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));

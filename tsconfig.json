@@ -3,8 +3,10 @@
     "module": "ESNext",
     "target": "ESNext",
     "composite": true,
-    "outDir": "dist",
-    "rootDir": ".",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "moduleResolution": "Node",
+    "noImplicitAny": true,
     "sourceMap": true,
     "strict": false,
     "declaration": true,
@@ -31,13 +33,18 @@
     
   },
   "ts-node-esm/ --esm / esm": true,
+  "ts-node":{
+    "esm": true,
+  },
  
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "./src/.env",
+    "./dist"
   ],
   "compileOnSave": true,
   "watch": true,
