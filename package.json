@@ -2,14 +2,11 @@
   "name": "simple_crud_api",
   "version": "1.0.0",
   "description": "This is a simple CRUD API using in-memory database underneath",
-  "main": "./src/index.ts",
-  "type": "module",
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --verbose",
     "test-coverage": "jest --coverage",
-    "dev:server": "node --loader ts-node/esm  src/index.ts",
+    "start-dev": "node --loader ts-node/esm  src/server.ts",
     "start:prod": "webpack && cd dist && node build.js"
-   
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
@@ -33,7 +30,9 @@
   },
   "dependencies": {
     "dotenv": "^10.0.0",
-    "uuid": "^8.3.2"
+    "dotenv-webpack": "^7.1.0",
+    "uuid": "^8.3.2",
+    "webpack-dotenv-plugin": "^2.1.0"
   },
   "jest": {
     "transform": {},
@@ -42,4 +41,3 @@
     ]
   }
 }
- 

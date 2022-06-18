@@ -1,22 +1,19 @@
 const path = require("path");
-const dotenv = require("dotenv").config({
-    path: path.join(__dirname, ".env"),
-});
+const Dotenv = require("dotenv-webpack");
+const DotenvPlugin = require('webpack-dotenv-plugin');
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
     mode: "production",
-    entry: "./src/index.ts",
+    entry: "./src/server.ts",
     output: {
         filename: "build.js",
         path: path.resolve(__dirname, "dist"),
     },
     target: "node",
     plugins: [
-        new webpack.DefinePlugin({
-            "process.env": dotenv.parsed,
-        }),
+        new Dotenv(),
     ],
     externals: [nodeExternals()],
     module: {

@@ -7,7 +7,8 @@ import { fileURLToPath } from 'url';
 import { release, version } from 'os';
 import http from 'http';
 import module from 'module';
-import { user } from './user.js';
+import { userId } from './utils/userId';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,8 +23,8 @@ const __dirname = dirname(__filename);
 
 // const random = Math.random();-
 
-const unknownObject = user;
-console.log(unknownObject);
+const getUser = userId;
+console.log(getUser);
 
 // if (random > 0.5) {
 //   unknownObject = aData;
@@ -38,16 +39,22 @@ console.log(`Path to current file is ${__filename}`);
 console.log(`Path to current directory is ${__dirname}`);
 
 const myServer = http.createServer((_, res) => {
-  res.end('Request accepted');
+  res.setHeader('Content-Type', 'text/plain');
+  if (_.url === 'api/users') {
+    _.statusCode = 200
+    res.end(JSON.stringify(getUser));
+  }
 });
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PROD_PORT || 3000;
+console.log(PORT);
 
 myServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 myServer.on("error", (error) => {
   console.log(error);
 });
 
+
 // module.exports = {
-//   unknownObject,
+//   getUser,
 //   myServer,
 // };
