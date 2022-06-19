@@ -28,16 +28,16 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
     return res.statusMessage = err.message;
   }
   );
-  
+  console.log(req.url);
   // Get All Users
-  if (req.url === `${URL}/api/users` && req.method === 'GET') {
+  if (req.url === '/api/users' && req.method === 'GET') {
     req.statusCode = 200;
     getAllUsers();
      res.end(JSON.stringify(getAllUsers));
   }
 
   // Get User by Id
-  if (req.url === `${URL}/api/users/:id` && req.method === 'GET') {
+  if (req.url === '/api/users/:id' && req.method === 'GET') {
     req.statusCode = 200;
     const id = req.url.split('/').pop();
     getUser(id);
@@ -45,12 +45,11 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
   }
 
   // Create User
-  if (req.url === `${URL}/api/users/:id` && req.method === 'POST' && req.headers['content-type'] === 'application/json') {
+  if (req.url === '/api/users/' && req.method === 'POST' && req.headers['content-type'] === 'application/json') {
     req.statusCode = 201;
     let body: User = {
-      index: 0,
-      id: '',
-      username: '',
+      
+     username: '',
       age: 0,
       hobbies: []
     };
@@ -58,15 +57,15 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
     res.end(JSON.stringify(createUser));
   }
 
-  // Update User
-  if (req.url === `${URL}/api/users/:id` && req.method === 'PUT') {
+  // Update User'
+  if (req.url === '/api/users/:id' && req.method === 'PUT') {
     const id = req.url.split('/').pop();
     req.statusCode = 200;
     updateUser(id);
     res.end(JSON.stringify(updateUser(id)));
   }
   // Delete User
-  if (req.url === `${URL}/api/users/:id` && req.method === 'DELETE') {
+  if (req.url === '/api/users/:id' && req.method === 'DELETE') {
     const id = req.url.split('/').pop();
     req.statusCode = 200;
     deleteUser(id);
@@ -79,6 +78,15 @@ console.log(`${URL}/api/users`);
 myServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 myServer.on("error", (error) => {
   console.log(error);
+  myServer.on("data", () => {
+    console.log("data");
+  myServer.close();
 });
 
-export default myServer;
+  myServer.on("close", () => {
+    console.log("close");
+  }
+  );
+}
+);
+
