@@ -1,60 +1,84 @@
 #! /usr/bin / env node
 
-import fs from 'fs/promises';
 import path, { dirname } from 'path';
 
 import { fileURLToPath } from 'url';
 import { release, version } from 'os';
-import http from 'http';
-import module from 'module';
+import http, {IncomingMessage, ServerResponse} from 'http';
+
 import { userId } from './utils/userId.js';
+import { createUser } from './Api/createUser.js';
+import { deleteUser } from './Api/deleteUser.js';
+import { getAllUsers } from './Api/getAllUsers.js';
+import { getUser } from './Api/getUser.js';
+import { updateUser } from './Api/updateUser.js';
+import { User } from 'utils/types.js';
+
+const PORT = process.env.DEV_PORT || 8000;
+const HOST = process.env.DEV_HOST || '127.0.0.1';
+const URL = `http://${HOST}:${PORT}`;
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-// const aPath = path.resolve(__dirname, 'files/a.json');
-// const bPath = path.resolve(__dirname, 'files/b.json');
 
-// const a = await fs.readFile(aPath, 'utf8');
-// const b = await fs.readFile(bPath, 'utf8');
+const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) => {
+  res.setHeader('Content-Type', "application/json");
+  req.on ("error", (err) => {
+    return res.statusMessage = err.message;
+  }
+  );
+  
+  // Get All Users
+  if (req.url === `${URL}/api/users` && req.method === 'GET') {
+    req.statusCode = 200;
+    getAllUsers();
+     res.end(JSON.stringify(getAllUsers));
+  }
 
-// const aData = JSON.parse(a);
-// const bData = JSON.parse(b);
+  // Get User by Id
+  if (req.url === `${URL}/api/users/:id` && req.method === 'GET') {
+    req.statusCode = 200;
+    const id = req.url.split('/').pop();
+    getUser(id);
+    res.end(JSON.stringify(getUser(req.url)));
+  }
 
-// const random = Math.random();-
+  // Create User
+  if (req.url === `${URL}/api/users/:id` && req.method === 'POST' && req.headers['content-type'] === 'application/json') {
+    req.statusCode = 201;
+    let body: User = {
+      index: 0,
+      id: '',
+      username: '',
+      age: 0,
+      hobbies: []
+    };
+    createUser(body);
+    res.end(JSON.stringify(createUser));
+  }
 
-const getUser = userId;
-console.log(getUser);
-
-// if (random > 0.5) {
-//   unknownObject = aData;
-// } else {
-//   unknownObject = bData;
-// }
-console.log(`Release ${release()}`);
-console.log(`Version ${version()}`);
-console.log(`Path segment separator is "${path.sep}"`);
-
-console.log(`Path to current file is ${__filename}`);
-console.log(`Path to current directory is ${__dirname}`);
-
-const myServer = http.createServer((_, res) => {
-  res.setHeader('Content-Type', 'text/plain');
-  if (_.url === 'api/users') {
-    _.statusCode = 200
-    res.end(JSON.stringify(getUser));
+  // Update User
+  if (req.url === `${URL}/api/users/:id` && req.method === 'PUT') {
+    const id = req.url.split('/').pop();
+    req.statusCode = 200;
+    updateUser(id);
+    res.end(JSON.stringify(updateUser(id)));
+  }
+  // Delete User
+  if (req.url === `${URL}/api/users/:id` && req.method === 'DELETE') {
+    const id = req.url.split('/').pop();
+    req.statusCode = 200;
+    deleteUser(id);
+    res.end(JSON.stringify(deleteUser(id)));
   }
 });
-const PORT = process.env.PROD_PORT || 8000;
-console.log(PORT);
+
+console.log(`${URL}/api/users`);
 
 myServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 myServer.on("error", (error) => {
   console.log(error);
 });
 
-
-// module.exports = {
-//   getUser,
-//   myServer,
-// };
+export default myServer;
