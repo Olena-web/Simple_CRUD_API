@@ -28,34 +28,78 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
     return res.statusMessage = err.message;
   }
   );
-  console.log(req.url);
+  
   // Get All Users
   if (req.url === '/api/users' && req.method === 'GET') {
     req.statusCode = 200;
     getAllUsers();
-     res.end(JSON.stringify(getAllUsers));
+     res.end(console.log(JSON.stringify(getAllUsers())));
   }
 
   // Get User by Id
-  if (req.url === '/api/users/:id' && req.method === 'GET') {
+  if (req.url === '/api/users/:id' && req.method === 'GET' ) {
     req.statusCode = 200;
     const id = req.url.split('/').pop();
     getUser(id);
-    res.end(JSON.stringify(getUser(req.url)));
+    res.end(JSON.stringify(getUser(id)));
   }
 
   // Create User
-  if (req.url === '/api/users/' && req.method === 'POST' && req.headers['content-type'] === 'application/json') {
-    req.statusCode = 201;
-    let body: User = {
-      
-     username: '',
-      age: 0,
-      hobbies: []
-    };
-    createUser(body);
-    res.end(JSON.stringify(createUser));
+  if (req.url === '/api/users' && req.method === 'POST') {
+    console.log(req.statusCode);
+    let body: string = '';
+
+  req.on("data",  (chunk) => {
+    body += chunk;
+    console.log(body);
+});
+  req.on("end", () => {
+    const user: User = JSON.parse(body);
+    createUser(user);
+    res.write(JSON.stringify(createUser(user)));
+    res.end();
   }
+  );
+  }
+  
+
+  // res.on("end", function () {
+  //   const body = chunks.toString();
+  //   console.log(body.toString());
+  // });
+  // }
+
+
+  //   let body:User = {
+  //     username: '',
+  //     age: 0,
+  //     hobbies: []
+  //   };
+  //   req.on('readable', function() {
+  //     body += req.read();
+  // });
+  //   const user: User = body;
+  //   console.log(user);
+  //   createUser(user);
+  //   res.end(JSON.stringify(createUser(user)));
+  // }
+  //   req.on('data', (data) => {
+  //     const user: User = JSON.parse(data.toString());
+  //     createUser(user);
+  //     res.end(JSON.stringify(createUser(user)));
+  //   }
+  //   );
+  // }
+    // let body: User = {
+      
+    //  username: 'Olena',
+    //   age: 50,
+    //   hobbies: []
+    // };
+    // createUser(body);
+   // res.end(console.log(JSON.stringify(createUser)));
+  //}
+
 
   // Update User'
   if (req.url === '/api/users/:id' && req.method === 'PUT') {
