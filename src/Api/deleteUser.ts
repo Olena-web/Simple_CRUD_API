@@ -4,7 +4,7 @@ import {response} from '../utils/response.js';
 let UsersBase: User[] = [];
 
 export const deleteUser = (id: string) => {
-    const user = UsersBase.find(user => user.id === id);
+    const user = UsersBase.find(user => user.id == id);
     if (user) {
         UsersBase = UsersBase.splice(user.index, 1);
         response.status = 204;

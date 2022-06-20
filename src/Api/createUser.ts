@@ -5,7 +5,8 @@ import {response} from '../utils/response.js';
 
 
 export const createUser = (user: User) => {
-    const newUser = { id: userId, ...user };
+  const newId = userId();
+    const newUser = { id: newId, ...user };
     if (newUser !== null) {
     UsersBase.push(newUser);
     response.status = 201;

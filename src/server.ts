@@ -46,7 +46,7 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
 
   // Create User
   if (req.url === '/api/users' && req.method === 'POST') {
-    console.log(req.statusCode);
+    req.statusCode = 200;
     let body: string = '';
 
   req.on("data",  (chunk) => {
@@ -56,51 +56,12 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
   req.on("end", () => {
     const user: User = JSON.parse(body);
     createUser(user);
-    res.write(JSON.stringify(createUser(user)));
+    //res.write(JSON.stringify(createUser(user)));
     res.end();
   }
   );
   }
   
-
-  // res.on("end", function () {
-  //   const body = chunks.toString();
-  //   console.log(body.toString());
-  // });
-  // }
-
-
-  //   let body:User = {
-  //     username: '',
-  //     age: 0,
-  //     hobbies: []
-  //   };
-  //   req.on('readable', function() {
-  //     body += req.read();
-  // });
-  //   const user: User = body;
-  //   console.log(user);
-  //   createUser(user);
-  //   res.end(JSON.stringify(createUser(user)));
-  // }
-  //   req.on('data', (data) => {
-  //     const user: User = JSON.parse(data.toString());
-  //     createUser(user);
-  //     res.end(JSON.stringify(createUser(user)));
-  //   }
-  //   );
-  // }
-    // let body: User = {
-      
-    //  username: 'Olena',
-    //   age: 50,
-    //   hobbies: []
-    // };
-    // createUser(body);
-   // res.end(console.log(JSON.stringify(createUser)));
-  //}
-
-
   // Update User'
   if (req.url === '/api/users/:id' && req.method === 'PUT') {
     const id = req.url.split('/').pop();
