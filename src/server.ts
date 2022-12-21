@@ -69,8 +69,18 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
   // Update User'
   if (req.url === `/api/users/${id}` && req.method === 'PUT') {
     req.statusCode = 200;
-    updateUser(`${id}`);
-    res.end(JSON.stringify(updateUser(`${id}`)));
+    let body: string = '';
+    req.on("data",  (chunk) => {
+      body += chunk;
+      console.log(body);
+  });
+  req.on("end", () => {
+    const user: User = JSON.parse(body);
+    updateUser(`${id}`, user);
+    res.write(JSON.stringify(updateUser(`${id}`, user)));
+    res.end();
+  }
+  );
   }
   // Delete User
   if (req.url === `/api/users/${id}` && req.method === 'DELETE') {

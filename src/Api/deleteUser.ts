@@ -4,13 +4,16 @@ import {response} from '../utils/response.js';
 let UsersBase: User[] = [];
 
 export const deleteUser = (id: string) => {
-    const user = UsersBase.find(user => user.id === id);
-    console.log(user);
+    response.status = 200;
+    if (id) {
+    const user = UsersBase.findIndex(user => user.id === id);
+   
     if (user) {
-        UsersBase = UsersBase.splice(user.index, 1);
+        UsersBase = UsersBase.splice(user, 1);
         response.status = 204;
-        response.message = "User with id `${id}` deleted";
+        response.message = `User with id ${id} deleted`;
         return { ...response, data: user };
     }
     return { status: 404, message: "Not Found" };
+}
 }
