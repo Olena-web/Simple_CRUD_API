@@ -7,11 +7,11 @@ export const getUser = (id: string) => {
     if (id) {
     response.data = UsersBase.find(user => user.id === id);
     if (response.data) {
-        return {...response, message: "id `${id}` found"};
+        return {...response, message: `User with id ${id} found`};
     }
     response.data = null;
     response.status = 404;
-    response.message = "User with id `${id}` not found";
+    response.message = `User with id ${id} not found`;
     return {...response};
 }
 }

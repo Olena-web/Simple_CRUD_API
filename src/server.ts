@@ -22,7 +22,10 @@ const URL = `http://${HOST}:${PORT}`;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
 const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) => {
+  const id:string = req.url.split('/').pop();
+  
   res.setHeader('Content-Type', "application/json");
   req.on ("error", (err) => {
     return res.statusMessage = err.message;
@@ -36,14 +39,7 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
      res.end(console.log(JSON.stringify(getAllUsers())));
   }
 
-  // Get User by Id
-  if (req.url === '/api/users/:id' && req.method === 'GET' ) {
-    req.statusCode = 200;
-    const id = req.url.split('/').pop();
-    getUser(id);
-    res.end(JSON.stringify(getUser(id)));
-  }
-
+  
   // Create User
   if (req.url === '/api/users' && req.method === 'POST') {
     req.statusCode = 200;
@@ -56,25 +52,31 @@ const myServer = http.createServer((req: IncomingMessage, res: ServerResponse) =
   req.on("end", () => {
     const user: User = JSON.parse(body);
     createUser(user);
-    //res.write(JSON.stringify(createUser(user)));
+    res.write(JSON.stringify(createUser(user)));
     res.end();
   }
   );
   }
   
-  // Update User'
-  if (req.url === '/api/users/:id' && req.method === 'PUT') {
-    const id = req.url.split('/').pop();
+  // Get User by Id
+  if (req.url === `/api/users/${id}` && req.method === 'GET' ) {
     req.statusCode = 200;
-    updateUser(id);
-    res.end(JSON.stringify(updateUser(id)));
+    getUser(`${id}`);
+    res.write(JSON.stringify(getUser(`${id}`)));
+    res.end();
+  }
+
+  // Update User'
+  if (req.url === `/api/users/${id}` && req.method === 'PUT') {
+    req.statusCode = 200;
+    updateUser(`${id}`);
+    res.end(JSON.stringify(updateUser(`${id}`)));
   }
   // Delete User
-  if (req.url === '/api/users/:id' && req.method === 'DELETE') {
-    const id = req.url.split('/').pop();
+  if (req.url === `/api/users/${id}` && req.method === 'DELETE') {
     req.statusCode = 200;
-    deleteUser(id);
-    res.end(JSON.stringify(deleteUser(id)));
+    deleteUser(`${id}`);
+    res.end(JSON.stringify(deleteUser(`${id}`)));
   }
 });
 
