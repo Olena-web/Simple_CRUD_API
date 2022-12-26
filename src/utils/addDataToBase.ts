@@ -3,7 +3,7 @@
 import fs from  'fs';
 import users from './users.json';
 import {User} from '../utils/types';
-console.log(users);
+
 
 export const addDataToBase = ( filePath: string, content: {}): void => {
   

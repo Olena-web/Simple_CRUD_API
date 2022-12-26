@@ -5,16 +5,17 @@ import {response} from '../utils/response.js';
 
 
 export const createUser = (user: User) => {
-  const newId = userId();
+  return new Promise(async (resolve, reject) => {
+    try {
+    const newId = userId();
     const newUser = { id: newId, ...user };
     if (newUser !== null) {
     UsersBase.push(newUser);
-    response.status = 201;
-    response.data = newUser;
-    return {...response, data: newUser, message: "Created"};   
+    resolve(newUser);
     }
-    response.status = 400;
-    response.message = "Bad Request";
-    return response;
-    
   }
+    catch (error: any) {
+      reject(new Error(error));
+    }
+  });
+};

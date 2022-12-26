@@ -1,19 +1,23 @@
 
 import { User} from '../utils/types.js';
 import {response} from '../utils/response.js';
-let UsersBase: User[] = [];
-
+import { getAllUsers } from './getAllUsers.js';
+//let UsersBase: User[] = [];
+//import { UsersBase } from '../utils/usersBase.js';
 export const deleteUser = (id: string) => {
-    response.status = 200;
-    if (id) {
-    const user = UsersBase.findIndex(user => user.id === id);
-   
-    if (user) {
-        UsersBase = UsersBase.splice(user, 1);
-        response.status = 204;
-        response.message = `User with id ${id} deleted`;
-        return { ...response, data: user };
+    
+    let UsersBase = getAllUsers().data;
+    const user = UsersBase.find((user) => user.id === id);
+    
+    if (!user) {
+        response.status = 404;
+        response.message = `User with id ${id} not found`;
+        return response;
     }
-    return { status: 404, message: "Not Found" };
-}
+    if (user) {
+        response.status = 204;
+        UsersBase = UsersBase.filter((user) => user.id !== id);
+        return{...response, data: UsersBase, message: `User with id ${id} deleted`}
+       
+    }
 }
