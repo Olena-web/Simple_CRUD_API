@@ -1,6 +1,7 @@
-import { UsersBase } from '../utils/usersBase.js';
+//import { UsersBase } from '../utils/usersBase.js';
 import {response} from '../utils/response.js';
-
+import { getAllUsers } from './getAllUsers.js';
+let UsersBase = getAllUsers().data;
 
 export const getUser = (id: string) => {
     response.status = 200;

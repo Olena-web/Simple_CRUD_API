@@ -119,7 +119,6 @@ const myServer = http.createServer( (req: eIncomingMessage, res: ServerResponse)
     }
     const user: User = JSON.parse(body);
     updateUser(`${id}`, user);
-    res.write(JSON.stringify(updateUser(`${id}`, user)));
     res.end();
   }
   );

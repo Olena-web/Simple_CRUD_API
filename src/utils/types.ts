@@ -1,9 +1,9 @@
 export interface User {
     index?: number;
     id?: (() => string) | string;
-    username: string;
-    age: number;
-    hobbies: string[];
+    username?: string;
+    age?: number;
+    hobbies?: string[];
 
 }
 export type Response = {
