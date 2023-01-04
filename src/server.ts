@@ -44,38 +44,13 @@ const myServer = http.createServer( (req: eIncomingMessage, res: ServerResponse)
 
   
   // Create User
-//   if (req.url === '/api/users' && req.method === 'POST') {
-//     //req.statusCode = 200;
-//     let body: string = '';
-
-//   req.on("data",  (chunk) => {
-//     body += chunk;
-//     console.log(body);
-// });
-//   req.on("end", async () => {
-    
-//     if (body === "") {
-//       response.status = 400;
-//       response.message = "Bad request";
-//       return res.end();
-      
-//     } else {
-//       //req.statusCode = 200;
-//     const user: User = JSON.parse(body);
-//     await createUser(user);
-//     console.log(createUser(user));
-//     res.write(JSON.stringify(createUser(user)));
-//     return res.end();
-//   }
-// }
-  //);
   if (req.url === '/api/users' && req.method === 'POST') {
     req.statusCode = 200;
     let body: string = '';
 
   req.on("data",  (chunk) => {
     body += chunk;
-    console.log(body);
+    
 });
   req.on("end", () => {
     if (body === '') {
@@ -83,12 +58,12 @@ const myServer = http.createServer( (req: eIncomingMessage, res: ServerResponse)
       res.statusMessage = "Bad request";
       res.end();
       return;
-    } else {
+    } 
     const user: User = JSON.parse(body);
     res.write(JSON.stringify(createUser(user)));
+    //createUser(user);
     res.end();
     }
-  }
   );
  
   }
@@ -108,8 +83,7 @@ const myServer = http.createServer( (req: eIncomingMessage, res: ServerResponse)
     let body: string = '';
     req.on("data",  (chunk) => {
       body += chunk;
-      console.log(body);
-  });
+    });
   req.on("end", () => {
     if (!body) {
       res.statusCode = 400;
@@ -118,15 +92,15 @@ const myServer = http.createServer( (req: eIncomingMessage, res: ServerResponse)
       return;
     }
     const user: User = JSON.parse(body);
-    updateUser(`${id}`, user);
+    res.write(JSON.stringify(updateUser(`${id}`, user)));
     res.end();
   }
   );
   }
+
   // Delete User
   if (req.url === `/api/users/${id}` && req.method === 'DELETE') {
     req.statusCode = 200;
-    deleteUser(`${id}`);
     res.write(JSON.stringify(deleteUser(`${id}`)));
     res.end();
   }
