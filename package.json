@@ -1,0 +1,46 @@
+{
+  "name": "simple_crud_api",
+  "version": "1.0.0",
+  "description": "This is a simple CRUD API using in-memory database underneath",
+  "main": "server.js",
+  "type":"module",
+  "scripts": {
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --verbose",
+    "test-coverage": "jest --coverage",
+    "start:prod": "webpack && cd dist && node build.js",
+    "start:dev": "nodemon src/server.ts",
+    "start:multi":"nodemon src/cluster.ts"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.16",
+    "prettier": "2.4.1",
+    "supertest": "^6.1.6",
+    "ts-loader": "^9.3.0",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "dotenv-webpack": "^7.1.0",
+    "uuid": "^8.3.2",
+    "webpack-dotenv-plugin": "^2.1.0"
+  },
+  "jest": {
+    "transform": {},
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ]
+  }
+}
