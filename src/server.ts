@@ -20,11 +20,7 @@ const HOST = process.env.DEV_HOST || '127.0.0.1';
 const URL = `http://${HOST}:${PORT}`;
 
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
-
-const myServer = http.createServer( (req: eIncomingMessage, res: ServerResponse) => {
+export const myServer = http.createServer( (req: eIncomingMessage, res: ServerResponse) => {
   const id:string = req.url.split('/').pop();
   
   res.setHeader('Content-Type', "application/json");
@@ -114,12 +110,15 @@ myServer.on("error", (error) => {
   myServer.on("data", () => {
     console.log("data");
   myServer.close();
-});
+
 
   myServer.on("close", () => {
     console.log("close");
   }
   );
+  myServer.on('uncaughtException',()=> {myServer.close();})
+  myServer.on('SIGTERM',()=> {myServer.close();})
 }
 );
-
+}
+);
